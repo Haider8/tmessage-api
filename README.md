@@ -14,31 +14,31 @@ Second, you would need to host a MongoDB database. You can either do it locally 
 Step-by-step to set up the API:
 1. Open the terminal where you want to store the project
 1. Clone the project:
-```shell
-git clone https://github.com/Haider8/tmessage-api.git
-```
+    ```shell
+    git clone https://github.com/Haider8/tmessage-api.git
+    ```
 1. Navigate into the project:
-```shell
-cd tmessage-api
-```
+    ```shell
+    cd tmessage-api
+    ```
 1. Install all dependencies/packages of the project:
-```shell
-npm i
-```
+    ```shell
+    npm i
+    ```
 1. Create a file named `.env` in the current directory:
-```shell
-touch .env
-```
+    ```shell
+    touch .env
+    ```
 1. Open the `.env` file with a text editor and enter the following content:
-```
-MONGODB_CONNECTION_STRING=[Your MongoDB connection string]
-```
+    ```
+    MONGODB_CONNECTION_STRING=[Your MongoDB connection string]
+    ```
 1. Subtitute `[Your MongoDB connection string]` with your MongoDB connection string you got earlier.
 1. Save and close the file.
 1. Host the API:
-```shell
-node server.js
-```
+    ```shell
+    node server.js
+    ```
 1. Use an Http Client (e.g.: Postman) to test the API.
 
 ## API References
