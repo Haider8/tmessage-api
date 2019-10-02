@@ -18,10 +18,40 @@ app.use(bodyParser.json());
 const auth = require('./auth-manager')();
 const mongoDBConnectionString = process.env.MONGODB_CONNECTION_STRING;
 
+// Security with JWT
+const jwt = require('jsonwebtoken');
+const passport = require("passport");
+const passportJWT = require("passport-jwt");
+const ExtractJwt = passportJWT.ExtractJwt;
+const JwtStrategy = passportJWT.Strategy;
+
+var jwtOptions = {};
+jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+jwtOptions.secretOrKey = 'xIyC#bzK$42AmKfU8GyHw^9sPtF&C2$Ic$mKolkiU6XVK88KYG';
+jwtOptions.passReqToCallback = true;
+
+var strategy = new JwtStrategy(jwtOptions, function (req, jwt_payload, next) {
+    let now = Math.round(Date.now() / 1000);
+    if (jwt_payload && now < jwt_payload.exp) {
+        next(null, jwt_payload);
+    } else {
+        next(null, false);
+    }
+});
+
+passport.use(strategy);
+app.use(passport.initialize());
+
+// Add this middleware to routes need protected
+const basicTokenAuthentication = passport.authenticate("jwt", {session: false});
+
 app.post('/api/user/register', async (req, res) => {
     try {
-        await auth.register(req.body);
-        return res.json({success: true, message: `User [${req.body.userName}] successfully registered`});
+        let user = await auth.register(req.body);
+        let { userName, displayedName } = user;
+        let jwt_payload = { userName, displayedName };
+        let token = jwt.sign(jwt_payload, jwtOptions.secretOrKey);
+        return res.json({success: true, token, message: `User [${req.body.userName}] successfully registered`});
     } catch(e) {
         return res.status(400).json({success: false, message: e.message});
     }
@@ -29,8 +59,11 @@ app.post('/api/user/register', async (req, res) => {
 
 app.post('/api/user/login', async (req, res) => {
     try {
-        await auth.login(req.body);
-        return res.json({success: true, message: `User [${req.body.userName}] succesfully logged in`});
+        let user = await auth.login(req.body);
+        let { userName, displayedName } = user;
+        let jwt_payload = { userName, displayedName };
+        let token = jwt.sign(jwt_payload, jwtOptions.secretOrKey);
+        return res.json({success: true, token, message: `User [${req.body.userName}] succesfully logged in`});
     } catch(e) {
         return res.status(400).json({success: false, message: e.message});
     }

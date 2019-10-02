@@ -24,12 +24,16 @@ module.exports = function() {
         },
 
         register: async function(newUser) {
-            if (newUser.userName === '') {
-                throw new Error('Username is empty');
+            if (!newUser.userName || newUser.userName == '') {
+                throw new Error('Username is missing or empty');
             }
 
             if (newUser.password != newUser.passwordConfirm) {
                 throw new Error('Passwords do not match');
+            }
+
+            if (!newUser.displayedName || newUser.displayedName == '') {
+                throw new Error('Displayed name is missing or empty');
             }
 
             // Hash and update password for new user
@@ -50,11 +54,15 @@ module.exports = function() {
 
         login: async function(credential) {
             let userData = await UserAccount.findOne({userName: credential.userName}).exec();
-            let passwordMatched = bcrypt.compareSync(credential.password, userData.password);
-            if (passwordMatched) {
-                return userData;
+            if (userData) {
+                let passwordMatched = bcrypt.compareSync(credential.password, userData.password);
+                if (passwordMatched) {
+                    return userData;
+                } else {
+                    throw new Error('Wrong password');
+                }
             } else {
-                throw new Error('Wrong password');
+                throw new Error('Username does not exist');
             }
         }
 
