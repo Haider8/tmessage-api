@@ -1,0 +1,30 @@
+{
+  "name": "tmessage-api",
+  "version": "1.0.0",
+  "description": "Authorization and Authentication API for tmessage program",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vitokhangnguyen/tmessage-api.git"
+  },
+  "author": "Haider Ali",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/vitokhangnguyen/tmessage-api/issues"
+  },
+  "homepage": "https://github.com/vitokhangnguyen/tmessage-api#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.7.3",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0"
+  }
+}
