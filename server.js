@@ -31,8 +31,7 @@ jwtOptions.secretOrKey = 'xIyC#bzK$42AmKfU8GyHw^9sPtF&C2$Ic$mKolkiU6XVK88KYG';
 jwtOptions.passReqToCallback = true;
 
 var strategy = new JwtStrategy(jwtOptions, function (req, jwt_payload, next) {
-    let now = Math.round(Date.now() / 1000);
-    if (jwt_payload && now < jwt_payload.exp) {
+    if (jwt_payload) {
         next(null, jwt_payload);
     } else {
         next(null, false);
