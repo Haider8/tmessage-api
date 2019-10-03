@@ -47,10 +47,10 @@ const basicTokenAuthentication = passport.authenticate("jwt", {session: false});
 app.post('/api/user/register', async (req, res) => {
     try {
         let user = await auth.register(req.body);
-        let { userName, displayedName } = user;
-        let jwt_payload = { userName, displayedName };
+        let { user_name, displayed_name } = user;
+        let jwt_payload = { user_name, displayed_name };
         let token = jwt.sign(jwt_payload, jwtOptions.secretOrKey);
-        return res.json({success: true, token, message: `User [${req.body.userName}] successfully registered`});
+        return res.json({success: true, token, message: `User [${user_name}] successfully registered`});
     } catch(e) {
         return res.status(400).json({success: false, message: e.message});
     }
@@ -59,23 +59,23 @@ app.post('/api/user/register', async (req, res) => {
 app.post('/api/user/login', async (req, res) => {
     try {
         let user = await auth.login(req.body);
-        let { userName, displayedName } = user;
-        let jwt_payload = { userName, displayedName };
+        let { user_name, displayed_name } = user;
+        let jwt_payload = { user_name, displayed_name };
         let token = jwt.sign(jwt_payload, jwtOptions.secretOrKey);
-        return res.json({success: true, token, message: `User [${req.body.userName}] succesfully logged in`});
+        return res.json({success: true, token, message: `User [${user_name}] succesfully logged in`});
     } catch(e) {
         return res.status(400).json({success: false, message: e.message});
     }
 });
 
-app.get('/api/user/checkExist/:userName', async (req, res) => {
+app.get('/api/user/checkExist/:user_name', async (req, res) => {
     try {
-        let userName = req.params.userName;
-        let userNameExist = await auth.checkExist(userName);
+        let user_name = req.params.user_name;
+        let userNameExist = await auth.checkExist(user_name);
         if (userNameExist) {
-            return res.json({success: true, exist: true, message: `User [${userName}] has already existed`});
+            return res.json({success: true, exist: true, message: `User [${user_name}] has already existed`});
         } else {
-            return res.json({success: true, exist: false, message: `User [${userName}] does not exist`});
+            return res.json({success: true, exist: false, message: `User [${user_name}] does not exist`});
         }
     } catch(e) {
         return res.status(400).json({success: false, message: e.message})

@@ -46,10 +46,10 @@ Step-by-step to set up the API:
 ### POST: /api/user/register
 
 Make a reuqest to this route to register a User Account, expected body data shape:
-* userName: A string - name used for login (used with the --user parameter)
-* displayedName: A string - name used to display when communicate with others
+* user_name: A string - name used for login (used with the --user parameter)
+* displayed_name: A string - name used to display when communicate with others
 * password: A string
-* passwordConfirm: A string matches `password`
+* password_confirm: A string matches `password`
 
 The reponse of returned data includes 2 fields:
 * success: `true` if the registration process is successfull, `false` otherwise
@@ -59,7 +59,7 @@ The reponse of returned data includes 2 fields:
 ### POST: /api/user/login
 
 Make a reuqest to this route to login, expected body data shape:
-* userName: A string
+* user_name: A string
 * password: A string
 
 The reponse of returned data includes 2 fields:
@@ -67,10 +67,10 @@ The reponse of returned data includes 2 fields:
 * token: A JWT token to be decoded if `success` is `true`, `undefined` otherwise
 * message: A message
 
-### GET: /api/user/checkExist/:userName
+### GET: /api/user/checkExist/:user_name
 
-Make a request to this route to check if a userName is occupied or not.
+Make a request to this route to check if a `user_name` is occupied or not.
 The reponse of returned data includes 3 fields:
 * success: `true` if the checking process is successfull, `false` otherwise
-* exist: `true` if the userName is occupied, `false` if the userName is not taken, `undefined` if `success` is `false`
+* exist: `true` if the `user_name` is occupied, `false` if the `user_name` is not taken, `undefined` if `success` is `false`
 * message: A message

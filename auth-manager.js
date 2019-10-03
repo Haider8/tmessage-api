@@ -24,16 +24,16 @@ module.exports = function() {
         },
 
         register: async function(newUser) {
-            if (!newUser.userName || newUser.userName == '') {
-                throw new Error('Username is missing or empty');
+            if (!newUser.user_name || newUser.user_name == '') {
+                throw new Error('user_name is missing or empty');
             }
 
-            if (newUser.password != newUser.passwordConfirm) {
-                throw new Error('Passwords do not match');
+            if (newUser.password != newUser.password_confirm) {
+                throw new Error('password and password_confirm do not match');
             }
 
-            if (!newUser.displayedName || newUser.displayedName == '') {
-                throw new Error('Displayed name is missing or empty');
+            if (!newUser.displayed_name || newUser.displayed_name == '') {
+                throw new Error('displayed_name is missing or empty');
             }
 
             // Hash and update password for new user
@@ -47,13 +47,13 @@ module.exports = function() {
             return await newUserDoc.save();
         },
 
-        checkExist: async function(userName) {
-            let userData = await UserAccount.findOne({userName: userName}).exec();
+        checkExist: async function(user_name) {
+            let userData = await UserAccount.findOne({user_name: user_name}).exec();
             return userData ? true : false;
         },
 
         login: async function(credential) {
-            let userData = await UserAccount.findOne({userName: credential.userName}).exec();
+            let userData = await UserAccount.findOne({user_name: credential.user_name}).exec();
             if (userData) {
                 let passwordMatched = bcrypt.compareSync(credential.password, userData.password);
                 if (passwordMatched) {
@@ -62,7 +62,7 @@ module.exports = function() {
                     throw new Error('Wrong password');
                 }
             } else {
-                throw new Error('Username does not exist');
+                throw new Error('user_name does not exist');
             }
         }
 
