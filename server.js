@@ -27,7 +27,7 @@ const JwtStrategy = passportJWT.Strategy;
 
 var jwtOptions = {};
 jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-jwtOptions.secretOrKey = 'xIyC#bzK$42AmKfU8GyHw^9sPtF&C2$Ic$mKolkiU6XVK88KYG';
+jwtOptions.secretOrKey = process.env.JWT_SECRET;
 jwtOptions.passReqToCallback = true;
 
 var strategy = new JwtStrategy(jwtOptions, function (req, jwt_payload, next) {
