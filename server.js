@@ -68,6 +68,18 @@ app.post('/api/user/login', async (req, res) => {
     }
 });
 
+app.post('/api/user/changeDisplayName', async (req, res) => {
+    try {
+        let user = await auth.changeDisplayName(req.body);
+        let { user_name, displayed_name } = user;
+        let jwt_payload = { user_name, displayed_name };
+        let token = jwt.sign(jwt_payload, jwtOptions.secretOrKey);
+        return res.json({success: true, token, message: `[${user_name}] succesfully changed display name to [${displayed_name}]`});
+    } catch(e) {
+        return res.status(400).json({success: false, message: e.message});
+    }
+});
+
 app.get('/api/user/checkExist/:user_name', async (req, res) => {
     try {
         let user_name = req.params.user_name;

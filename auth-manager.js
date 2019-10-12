@@ -64,6 +64,18 @@ module.exports = function() {
             } else {
                 throw new Error('user_name does not exist');
             }
+        },
+
+        changeDisplayName: async function(editedUser) {
+            var user = await UserAccount.findOne({user_name: editedUser.user_name}).exec();
+
+            if (user) {
+                user.displayed_name = editedUser.displayed_name;
+
+                return await user.save();
+            } else {
+                throw new Error('user_name does not exist');
+            }
         }
 
     };
